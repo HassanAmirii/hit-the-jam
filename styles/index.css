@@ -103,6 +103,9 @@ h1 {
   color: #00e5ff;
 }
 
+.time {
+  color: #ff0055;
+}
 .start-btn {
   width: 100%;
   background: var(--btn-red);
