@@ -29,17 +29,19 @@ const elements = {
   grid: document.getElementById("button-grid"),
   overlay: document.getElementById("game-over-overlay"),
   finalXp: document.getElementById("final-xp"),
+  failMessage: document.getElementById("fail-message"), // New element
 };
 
 // 4. CORE ENGINE
 function init() {
-  // Load High Score from LocalStorage
   const savedHi = localStorage.getItem("breadJam_hiScore") || 0;
   elements.hi.textContent = savedHi;
 
   score = 0;
   speed = Config.startSpeed;
   isGameOver = false;
+  elements.overlay.style.display = "none";
+  elements.xp.textContent = "0";
 
   nextTurn();
 }
@@ -47,29 +49,25 @@ function init() {
 function nextTurn() {
   if (isGameOver) return;
 
-  // Randomize target (BREAD, JAM, or rare COMBO)
   const keys = ["BREAD", "JAM", "BREAD", "JAM", "COMBO"];
   activeTarget = keys[Math.floor(Math.random() * keys.length)];
 
-  // Update Visuals
   elements.target.textContent = GameData[activeTarget].emoji;
   elements.targetText.textContent = `TARGET: ${activeTarget}`;
 
   renderButtons();
 
-  // Reset the "Game Over" countdown
   clearTimeout(gameTimer);
-  gameTimer = setTimeout(triggerGameOver, speed);
+  // Pass "slow" as the reason if timer expires
+  gameTimer = setTimeout(() => triggerGameOver("slow"), speed);
 }
 
 function renderButtons() {
   elements.grid.innerHTML = "";
 
-  // Get the correct word for the current target
   const correctWord = GameData[activeTarget].words[0];
   let pool = [{ text: correctWord, correct: true }];
 
-  // Fill with 3 random decoys from the other sets
   const allWords = [...GameData.BREAD.words, ...GameData.JAM.words];
   while (pool.length < 4) {
     const rand = allWords[Math.floor(Math.random() * allWords.length)];
@@ -78,10 +76,8 @@ function renderButtons() {
     }
   }
 
-  // Shuffle buttons
   pool.sort(() => Math.random() - 0.5);
 
-  // Create buttons
   pool.forEach((item) => {
     const btn = document.createElement("button");
     btn.className = "game-btn";
@@ -95,14 +91,10 @@ function handleInput(isCorrect, isCombo) {
   if (isGameOver) return;
 
   if (isCorrect) {
-    // Successful Hit
     score += isCombo ? Config.comboXP : Config.hitXP;
     speed = Math.max(Config.minSpeed, speed - Config.decrement);
-
-    // Update Stats
     elements.xp.textContent = score;
 
-    // Check High Score
     const currentHi = parseInt(elements.hi.textContent);
     if (score > currentHi) {
       localStorage.setItem("breadJam_hiScore", score);
@@ -111,22 +103,29 @@ function handleInput(isCorrect, isCombo) {
 
     nextTurn();
   } else {
-    // Wrong button hit
-    triggerGameOver();
+    // Pass "blind" as the reason for an incorrect click
+    triggerGameOver("blind");
   }
 }
 
-function triggerGameOver() {
+function triggerGameOver(reason) {
   isGameOver = true;
   clearTimeout(gameTimer);
+
+  // Conditional Insult Logic
+  if (reason === "slow") {
+    elements.failMessage.textContent = "WHAT A SLOW RETARD";
+  } else if (reason === "blind") {
+    elements.failMessage.textContent = "WHAT A BLIND RETARD";
+  } else {
+    elements.failMessage.textContent = "SYSTEM FAILURE";
+  }
 
   elements.finalXp.textContent = score;
   elements.overlay.style.display = "flex";
 
-  // Visual shake/flash
   document.body.style.backgroundColor = "#400";
   setTimeout(() => (document.body.style.backgroundColor = "#0a0a0c"), 200);
 }
 
-// Start the game loop
 init();
