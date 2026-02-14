@@ -1,26 +1,17 @@
 :root {
-  /* Colors */
-  --bg: #0a0a0c;
-  --surface: #16161a;
-  --bread-neon: #ffaa00;
-  --jam-neon: #ff0055;
-  --ui-white: #e0e0e0;
-  --btn-red: #ff3333;
-
-  /* Layout */
+  /* Detects iOS home bar height or defaults to 20px */
   --safe-bottom: env(safe-area-inset-bottom, 20px);
 }
 
 body {
   margin: 0;
   padding: 0;
-  height: 100svh; /* Small Viewport Height for mobile browsers */
+  /* dynamic viewport height to handle mobile browser bars */
+  height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--bg);
-  color: var(--ui-white);
-  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   overflow: hidden;
 }
 
@@ -33,50 +24,40 @@ body {
   display: flex;
   flex-direction: column;
   background: var(--surface);
-  border-left: 1px solid #222;
-  border-right: 1px solid #222;
 }
 
-/* Stats Bar & GitHub Icon */
 #stats-bar {
   display: flex;
   justify-content: space-around;
-  align-items: center;
-  font-family: "Courier New", Courier, monospace;
+  font-family: monospace;
   color: var(--bread-neon);
   padding: 15px 0;
   border-bottom: 1px solid #333;
   flex-shrink: 0;
-  background: rgba(0, 0, 0, 0.2);
 }
 
-/* Gameplay Area */
 #game-screen {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  flex-grow: 1; /* Occupies remaining space */
   justify-content: space-between;
   text-align: center;
+  /* Pushes content up away from iPhone home indicator */
   padding-bottom: calc(var(--safe-bottom) + 15px);
 }
 
 #target-display {
-  font-size: clamp(3.5rem, 18vh, 5.5rem);
+  font-size: clamp(3rem, 15vh, 5rem);
   text-shadow: 0 0 20px var(--bread-neon);
-  margin-top: 15px;
-  user-select: none;
+  margin-top: 10px;
 }
 
 #target-text {
-  color: #666;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.9rem;
-  letter-spacing: 2px;
+  color: #888;
+  font-family: monospace;
   margin-bottom: auto;
-  text-transform: uppercase;
 }
 
-/* Interactive Grid */
 #button-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -89,26 +70,22 @@ body {
   background: var(--surface);
   border: 2px solid #333;
   color: var(--ui-white);
-  padding: clamp(18px, 5vh, 28px);
-  font-weight: 900;
+  padding: clamp(15px, 4vh, 25px);
+  font-weight: bold;
   cursor: pointer;
   border-radius: 4px;
   text-transform: uppercase;
-  transition:
-    transform 0.05s,
-    background-color 0.1s;
-  font-size: 1.1rem;
-  letter-spacing: 1px;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: 0.1s;
+  font-size: 1rem;
 }
 
 .game-btn:active {
-  transform: scale(0.92);
-  background: #2a2a30;
-  border-color: var(--bread-neon);
+  transform: scale(0.95);
+  background: #333;
 }
 
-/* Game Over Overlay */
+/* Game Over Overlay Styles */
+
 #game-over-overlay {
   display: none;
   position: absolute;
@@ -126,48 +103,22 @@ body {
 
 .fail-title {
   color: var(--jam-neon);
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: 900;
   margin: 0;
-  padding: 0 20px;
-  text-shadow: 0 0 15px rgba(255, 0, 85, 0.6);
-  line-height: 1.2;
+  padding: 0 10px;
+  text-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
 }
 
 .final-score-text {
-  font-family: "Courier New", Courier, monospace;
-  margin: 25px 0;
-  font-size: 1.4rem;
-  color: #888;
+  font-family: monospace;
+  margin: 20px 0;
+  font-size: 1.2rem;
 }
 
 .reboot-btn {
   background: var(--btn-red);
   color: white;
   border: none;
-  padding: 20px 50px;
-  font-size: 1.3rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  cursor: pointer;
-  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
-  transition: filter 0.2s;
-}
-
-.reboot-btn:hover {
-  filter: brightness(1.2) drop-shadow(0 0 10px var(--btn-red));
-}
-
-/* Scanline Effect Overlay */
-.terminal-box::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
-  background-size: 100% 4px;
-  z-index: 5;
-  pointer-events: none;
+  padding: 15px 40px;
 }

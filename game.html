@@ -1,23 +1,32 @@
 <!doctype html>
+
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
+
     <title>BREADJAM | ACTIVE SESSION</title>
+
     <link rel="stylesheet" href="styles/jam.css" />
+
     <link rel="stylesheet" href="/styles/index.css" />
   </head>
+
   <body>
     <div class="terminal-box">
       <div id="game-over-overlay">
         <h2 id="fail-message" class="fail-title"></h2>
+
         <p class="final-score-text">
           FINAL XP:
+
           <span id="final-xp" style="color: var(--bread-neon)">0</span>
         </p>
+
         <button class="reboot-btn" onclick="location.reload()">
           START AGAIN
         </button>
@@ -25,12 +34,14 @@
 
       <div id="stats-bar">
         <span>XP: <span id="xp-display">0</span></span>
+
         <span>HI: <span id="high-score">0</span></span>
       </div>
 
       <div id="game-screen">
         <div>
           <div id="target-display"></div>
+
           <div id="target-text">TARGET: LOADING...</div>
         </div>
 
