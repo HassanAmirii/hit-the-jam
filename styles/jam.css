@@ -7,13 +7,14 @@
   --ui-white: #e0e0e0;
   --btn-red: #ff3333;
 
-  /* Layout */
+  /* Safe area for mobile home indicators */
   --safe-bottom: env(safe-area-inset-bottom, 20px);
 }
 
 body {
   margin: 0;
   padding: 0;
+  /* svh handles dynamic mobile bars better than vh */
   height: 100svh;
   display: flex;
   align-items: center;
@@ -49,6 +50,7 @@ body {
   flex-grow: 1;
   justify-content: space-between;
   text-align: center;
+  /* Prevents buttons from entering the bottom home bar zone */
   padding-bottom: calc(var(--safe-bottom) + 15px);
 }
 
