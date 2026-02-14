@@ -50,20 +50,6 @@ body {
   background: rgba(0, 0, 0, 0.2);
 }
 
-.github-link {
-  color: #555;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-}
-
-.github-link:hover {
-  color: var(--ui-white);
-  transform: scale(1.2) rotate(5deg);
-  filter: drop-shadow(0 0 5px var(--bread-neon));
-}
-
 /* Gameplay Area */
 #game-screen {
   display: flex;
