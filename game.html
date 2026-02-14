@@ -2,55 +2,102 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <title>BREADJAM | ACTIVE SESSION</title>
     <link rel="stylesheet" href="styles/index.css" />
     <style>
-      #game-screen {
+      :root {
+        /* Detects iOS home bar height or defaults to 20px */
+        --safe-bottom: env(safe-area-inset-bottom, 20px);
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        /* dynamic viewport height to handle mobile browser bars */
+        height: 100svh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--bg);
+        overflow: hidden;
+      }
+
+      .terminal-box {
+        width: 100%;
+        max-width: 500px;
+        height: 100svh;
+        position: relative;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
-        height: 90vh;
-        justify-content: space-between;
-        text-align: center;
-      }
-      #target-display {
-        font-size: 5rem;
-        text-shadow: 0 0 20px var(--bread-neon);
-        margin-top: 20px;
-      }
-      #button-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-        padding: 20px;
-      }
-      .game-btn {
         background: var(--surface);
-        border: 2px solid #333;
-        color: var(--ui-white);
-        padding: 20px;
-        font-weight: bold;
-        cursor: pointer;
-        border-radius: 4px;
-        text-transform: uppercase;
-        transition: 0.1s;
       }
-      .game-btn:active {
-        transform: scale(0.95);
-        background: #333;
-      }
+
       #stats-bar {
         display: flex;
         justify-content: space-around;
         font-family: monospace;
         color: var(--bread-neon);
-        padding: 10px 0;
+        padding: 15px 0;
         border-bottom: 1px solid #333;
+        flex-shrink: 0;
+      }
+
+      #game-screen {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1; /* Occupies remaining space */
+        justify-content: space-between;
+        text-align: center;
+        /* Pushes content up away from iPhone home indicator */
+        padding-bottom: calc(var(--safe-bottom) + 15px);
+      }
+
+      #target-display {
+        font-size: clamp(3rem, 15vh, 5rem);
+        text-shadow: 0 0 20px var(--bread-neon);
+        margin-top: 10px;
+      }
+
+      #target-text {
+        color: #888;
+        font-family: monospace;
+        margin-bottom: auto;
+      }
+
+      #button-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 0 20px;
+        margin-top: 10px;
+      }
+
+      .game-btn {
+        background: var(--surface);
+        border: 2px solid #333;
+        color: var(--ui-white);
+        padding: clamp(15px, 4vh, 25px);
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 4px;
+        text-transform: uppercase;
+        transition: 0.1s;
+        font-size: 1rem;
+      }
+
+      .game-btn:active {
+        transform: scale(0.95);
+        background: #333;
       }
 
       /* Game Over Overlay Styles */
       #game-over-overlay {
-        display: none; /* Controlled by jam.js */
+        display: none;
         position: absolute;
         top: 0;
         left: 0;
@@ -61,20 +108,24 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        border-radius: 4px;
+        text-align: center;
       }
+
       .fail-title {
         color: var(--jam-neon);
-        font-size: 2.5rem;
+        font-size: 2rem;
         font-weight: 900;
         margin: 0;
+        padding: 0 10px;
         text-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
       }
+
       .final-score-text {
         font-family: monospace;
         margin: 20px 0;
         font-size: 1.2rem;
       }
+
       .reboot-btn {
         background: var(--btn-red);
         color: white;
@@ -88,12 +139,9 @@
     </style>
   </head>
   <body>
-    <div
-      class="terminal-box"
-      style="max-width: 500px; position: relative; overflow: hidden"
-    >
+    <div class="terminal-box">
       <div id="game-over-overlay">
-        <h2 class="fail-title">WHAT A RETARD smh</h2>
+        <h2 class="fail-title">WHAT A RETARD SMH</h2>
         <p class="final-score-text">
           FINAL XP:
           <span id="final-xp" style="color: var(--bread-neon)">0</span>
@@ -109,15 +157,15 @@
       </div>
 
       <div id="game-screen">
-        <div id="target-display">🍞</div>
-        <div id="target-text" style="color: #888; margin-bottom: 20px">
-          TARGET: BREAD
+        <div>
+          <div id="target-display"></div>
+          <div id="target-text">TARGET: LOADING...</div>
         </div>
 
         <div id="button-grid"></div>
       </div>
     </div>
 
-    <script type="module" src="scripts/jam.js"></script>
+    <script src="scripts/jam.js"></script>
   </body>
 </html>
