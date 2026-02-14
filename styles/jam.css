@@ -7,14 +7,13 @@
   --ui-white: #e0e0e0;
   --btn-red: #ff3333;
 
-  /* Safe area for mobile home indicators */
-  --safe-bottom: env(safe-area-inset-bottom, 20px);
+  /* Increased safe area for iPhone home indicators */
+  --safe-bottom: env(safe-area-inset-bottom, 30px);
 }
 
 body {
   margin: 0;
   padding: 0;
-  /* svh handles dynamic mobile bars better than vh */
   height: 100svh;
   display: flex;
   align-items: center;
@@ -48,22 +47,23 @@ body {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  justify-content: space-between;
+  justify-content: flex-start; /* Stack from top */
   text-align: center;
-  /* Prevents buttons from entering the bottom home bar zone */
-  padding-bottom: calc(var(--safe-bottom) + 15px);
+  /* Lifted higher to clear iPhone home bar and prevent clipping */
+  padding-bottom: calc(var(--safe-bottom) + 50px);
 }
 
 #target-display {
-  font-size: clamp(3rem, 15vh, 5rem);
+  font-size: clamp(3rem, 12vh, 4.5rem);
   text-shadow: 0 0 20px var(--bread-neon);
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 #target-text {
   color: #888;
   font-family: monospace;
-  margin-bottom: auto;
+  margin-top: 5px;
+  margin-bottom: 20px;
 }
 
 #button-grid {
@@ -71,20 +71,20 @@ body {
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   padding: 0 20px;
-  margin-top: 10px;
+  margin-top: auto; /* Push to bottom of screen area */
 }
 
 .game-btn {
   background: var(--surface);
   border: 2px solid #333;
   color: var(--ui-white);
-  padding: clamp(15px, 4vh, 25px);
+  padding: clamp(14px, 3vh, 22px);
   font-weight: bold;
   cursor: pointer;
   border-radius: 4px;
   text-transform: uppercase;
   transition: 0.1s;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 .game-btn:active {
@@ -109,7 +109,7 @@ body {
 
 .fail-title {
   color: var(--jam-neon);
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 900;
   margin: 0;
   padding: 0 10px;
